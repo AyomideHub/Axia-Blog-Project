@@ -1,9 +1,9 @@
 const router = require('express').Router()
 const  {authenticateUser} = require('../middlewares/authentication')
-const {createComment, getAllComments, getSingleComment, deleteComment} = require('../controllers/comments.controller')
+const {createComment, getSingleComment, deleteComment} = require('../controllers/comments.controller')
 
 
-router.route('/').comment(authenticateUser, createComment).get(authenticateUser, getAllComments)
+router.route('/').post(authenticateUser, createComment)
 router.route('/:id').delete(authenticateUser, deleteComment).get(authenticateUser, getSingleComment)
 
 

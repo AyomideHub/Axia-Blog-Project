@@ -2,6 +2,7 @@ const { BadRequest, NotFoundError, ServerError } = require("../errors");
 const { StatusCodes } = require("http-status-codes");
 const Comment = require("../models/comments.model");
 const Post = require("../models/posts.model");
+const { post } = require("../routes/auth.route");
 
 const createComment = async (req, res) => {
   const { content, postId, parentCommentId } = req.body;
@@ -22,13 +23,6 @@ const createComment = async (req, res) => {
   res.status(StatusCodes.CREATED).json(comment);
 };
 
-const getAllComments = async (req, res) => {
-  const comment = await Comment.findById({
-    _id: req.params.id,
-  });
-  if (!comment) throw new NotFoundError("No Comment found");
-  res.status(StatusCodes.OK).json({ comment });
-};
 
 const getSingleComment = async (req, res) => {
   const comment = await Comment.findById({
@@ -50,7 +44,6 @@ const deleteComment = async (req, res) => {
 
 module.exports = {
   createComment,
-  getAllComments,
   getSingleComment,
   deleteComment,
 };
