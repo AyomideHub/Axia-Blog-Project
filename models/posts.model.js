@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const PostSchema = mongoose.Schema({
-	Name: {
+	title: {
 		type: String,
 		required: [true, "please provide the name of the post"],
 		unique: true,

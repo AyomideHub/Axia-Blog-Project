@@ -11,17 +11,17 @@ const createPost = async (req, res) => {
 };
 
 const getAllPosts = async (req, res) => {
-  const { sort, order, page, limit, name, category } = req.query;
+  const { sort, order, page, limit, title, category } = req.query;
   const queryObject = {};
-  if (name) {
-    queryObject.Name = { $regex: name, $options: 'i' }; // use to match pattern with the name passed in - from mongodb docs
+  if (title) {
+    queryObject.Title = { $regex: name, $options: 'i' }; // use to match pattern with the name passed in - from mongodb docs
   }
   if (category) {
     queryObject.Category = { $regex: category, $options: 'i' }; 
   }
 
  
-  const SortBy = sort || "Deadline";
+  const SortBy = sort || "Category";
   const OrderBy = order === "asc" ? 1 : -1;
   const sorting = {};
   sorting[SortBy] = OrderBy;
@@ -40,7 +40,7 @@ const getAllPosts = async (req, res) => {
 const getSinglePost = async (req, res) => {
   const post = await Post.findById({
     _id: req.params.id,
-  });
+  }).populate('comments');
   if (!post) throw new NotFoundError("No Post found");
   res.status(StatusCodes.OK).json({ post });
 };

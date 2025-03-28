@@ -15,5 +15,15 @@ const authenticateUser = async (req, res, next) => {
 	next()
 }
 
+const authenticateRole = async (req, res, next) =>{
+	const role = req.user.role
+	
+	if (role !== 'admin'){
+		return res.status(StatusCodes.FORBIDDEN).json({success: false, msg: "Unauthorized, You not an admin"})
+	}
 
-module.exports = {authenticateUser}
+	next()
+
+}
+
+module.exports = {authenticateUser, authenticateRole}
