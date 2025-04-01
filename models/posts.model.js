@@ -27,12 +27,12 @@ const PostSchema = mongoose.Schema({
 PostSchema.virtual('comments', {
 	ref: 'Comment',
 	localField: '_id',
-	foreignField: 'post',
+	foreignField: 'postID',
 	justOne: false,
   });
   
   PostSchema.pre('remove', async function (next) {
-	await this.model('Comment').deleteMany({ post: this._id });
+	await this.model('Comment').deleteMany({ postID: this._id });
   });
 
 

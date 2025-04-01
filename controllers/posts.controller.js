@@ -14,7 +14,7 @@ const getAllPosts = async (req, res) => {
   const { sort, order, page, limit, title, category } = req.query;
   const queryObject = {};
   if (title) {
-    queryObject.Title = { $regex: name, $options: 'i' }; // use to match pattern with the name passed in - from mongodb docs
+    queryObject.Title = { $regex: name, $options: 'i' };
   }
   if (category) {
     queryObject.Category = { $regex: category, $options: 'i' }; 

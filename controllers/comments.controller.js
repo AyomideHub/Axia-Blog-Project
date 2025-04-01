@@ -42,6 +42,11 @@ const deleteComment = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: "Comment deleted successfully" });
 };
 
+
+// NO updateComment endpoint because once a user made a comment it can be edit but can only be deleted
+// No getAllComment endpint because when a user get a single post all the post will be automatically populated with all it comment and when a user get a single comment it will be automatically populated by all its childComments
+
+
 module.exports = {
   createComment,
   getSingleComment,

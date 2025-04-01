@@ -6,7 +6,7 @@ const CommentSchema = mongoose.Schema({
 		required: [true, "please provide a description for the comments"],
 	},
 
-	post: {
+	postID: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Post',
 		required: true,
