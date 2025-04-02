@@ -24,6 +24,15 @@ const PostSchema = mongoose.Schema({
 
 },  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 
+PostSchema.pre('remove', async function (next) {
+	try {
+		await this.model('Comment').deleteMany({ postID: this._id });
+		next()
+	} catch (error) {
+		next(error)
+	}
+  });
+  
 PostSchema.virtual('comments', {
 	ref: 'Comment',
 	localField: '_id',
@@ -31,9 +40,7 @@ PostSchema.virtual('comments', {
 	justOne: false,
   });
   
-  PostSchema.pre('remove', async function (next) {
-	await this.model('Comment').deleteMany({ postID: this._id });
-  });
+
 
 
 module.exports = mongoose.model('Post', PostSchema)

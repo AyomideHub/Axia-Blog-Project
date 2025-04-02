@@ -17,7 +17,7 @@ const CommentSchema = mongoose.Schema({
 		ref: 'User',
 		required: true
 	},
-	parentComment:{
+	parentCommentId:{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Comment',
 		default: null
@@ -25,14 +25,14 @@ const CommentSchema = mongoose.Schema({
 
 },  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 
-PostSchema.virtual('childComments', {
+CommentSchema.virtual('childComments', {
 	ref: 'Comment',
 	localField: '_id',
 	foreignField: 'parentComment',
 	justOne: false,
   });
   
-  PostSchema.pre('remove', async function (next) {
+  CommentSchema.pre('remove', async function (next) {
 	await this.model('Comment').deleteMany({ parentComment: this._id });
   });
 

@@ -4,7 +4,6 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 
 
-
 /* The client/developer can make one of the users account the admin from the mongo database,
  by updating the user role to admin in the user model collection
  */
@@ -52,6 +51,7 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.getUserDocs = function () {
   return {
     ...this._doc,
+    password: undefined
   };
 };
 

@@ -6,7 +6,7 @@ const { post } = require("../routes/auth.route");
 
 const createComment = async (req, res) => {
   const { content, postId, parentCommentId } = req.body;
-  const post = await Post.findById(postId);
+  const post = await Post.findById({_id : postId});
   if (!post) throw new NotFoundError("Post doesnot exist");
 
   if (parentCommentId) {
@@ -16,8 +16,8 @@ const createComment = async (req, res) => {
 
   const comment = await Comment.create({
     content, 
-	post: postId,
-	parentComment: parentCommentId || null,
+    postID: postId,
+    parentCommentId: parentCommentId || null,
 	CreatedBy: req.user.id,
   });
   res.status(StatusCodes.CREATED).json(comment);

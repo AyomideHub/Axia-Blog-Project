@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const {connectdb} = require('./db/db')
 const AuthRoute = require('./routes/auth.route')
 const PostRoute = require('./routes/posts.route')
+const CommentRoute = require('./routes/comment.route')
 const {wrongRoute} = require('./middlewares/wrongRoute')
 const {errorhandlersMiddleware} = require('./middlewares/errorHandler')
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }))
 // routes
 app.use('/api/v1/auth', AuthRoute)
 app.use('/api/v1/posts', PostRoute)
+app.use('/api/v1/comments',CommentRoute)
 
 
 // errors

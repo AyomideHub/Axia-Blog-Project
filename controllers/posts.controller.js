@@ -21,7 +21,7 @@ const getAllPosts = async (req, res) => {
   }
 
  
-  const SortBy = sort || "Category";
+  const SortBy = sort || "createdAt";
   const OrderBy = order === "asc" ? 1 : -1;
   const sorting = {};
   sorting[SortBy] = OrderBy;
