@@ -2,8 +2,12 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
-const { signedCookies } = require("cookie-parser");
 
+
+
+/* The client/developer can make one of the users account the admin from the mongo database,
+ by updating the user role to admin in the user model collection
+ */
 
 const UserSchema = mongoose.Schema(
   {
