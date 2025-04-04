@@ -55,13 +55,20 @@ const updatePost = async (req, res) => {
   res.status(StatusCodes.OK).json(post);
 };
 
-const deletePost = async (req, res) => {
-  const post = await Post.findOneAndDelete({
-    CreatedBy: req.user.id,
-    _id: req.params.id,
-  });
-  if (!post) throw new NotFoundError("No Post found");
-  res.status(StatusCodes.OK).json({ message: "Post deleted successfully" });
+const deletePost = async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      CreatedBy: req.user.id,
+      _id: req.params.id,
+    });
+    if (!post) {
+      throw new NotFoundError("No Post found");
+    }
+    await post.deleteOne(); 
+    res.status(StatusCodes.OK).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    next(error); 
+  }
 };
 
 module.exports = {

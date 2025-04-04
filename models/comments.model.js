@@ -28,13 +28,18 @@ const CommentSchema = mongoose.Schema({
 CommentSchema.virtual('childComments', {
 	ref: 'Comment',
 	localField: '_id',
-	foreignField: 'parentComment',
+	foreignField: 'parentCommentId',
 	justOne: false,
   });
   
-  CommentSchema.pre('remove', async function (next) {
-	await this.model('Comment').deleteMany({ parentComment: this._id });
+  
+  CommentSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+	try {
+	  await this.model('Comment').deleteMany({ parentCommentId: this._id });
+	  next();
+	} catch (error) {
+	  next(error);
+	}
   });
-
 
 module.exports = mongoose.model('Comment', CommentSchema)

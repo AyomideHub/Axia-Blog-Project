@@ -33,18 +33,24 @@ const getSingleComment = async (req, res) => {
 };
 
 
-const deleteComment = async (req, res) => {
-  const comment = await Comment.findOneAndDelete({
-    CreatedBy: req.user.id,
-    _id: req.params.id,
-  });
-  if (!comment) throw new NotFoundError("No Comment found");
-  res.status(StatusCodes.OK).json({ message: "Comment deleted successfully" });
+const deleteComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findOne({
+      CreatedBy: req.user.id,
+      _id: req.params.id,
+    });
+    if (!comment) {
+      throw new NotFoundError("No Comment found");
+    }
+    await comment.deleteOne(); 
+    res.status(StatusCodes.OK).json({ message: "Comment deleted successfully" });
+  } catch (error) {
+    next(error); 
+  }
 };
 
-
-// NO updateComment endpoint because once a user made a comment it can be edit but can only be deleted
-// No getAllComment endpint because when a user get a single post all the post will be automatically populated with all it comment and when a user get a single comment it will be automatically populated by all its childComments
+// NO updateComment endpoint because once a user make a comment it cannot be edited again but can only be deleted
+// No getAllComment endpint because when a user get a single post, the post will be automatically populated with all it comments and when a user get a single comment it will be automatically populated by all its childComments
 
 
 module.exports = {
