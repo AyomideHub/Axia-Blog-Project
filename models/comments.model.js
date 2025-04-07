@@ -32,14 +32,5 @@ CommentSchema.virtual('childComments', {
 	justOne: false,
   });
   
-  
-  CommentSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
-	try {
-	  await this.model('Comment').deleteMany({ parentCommentId: this._id });
-	  next();
-	} catch (error) {
-	  next(error);
-	}
-  });
 
 module.exports = mongoose.model('Comment', CommentSchema)

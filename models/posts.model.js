@@ -25,6 +25,7 @@ const PostSchema = mongoose.Schema({
 },  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 
 
+// for creating a new field of each comment childcomment in memoroy without persisting it into the database
 PostSchema.virtual('comments', {
 	ref: 'Comment',
 	localField: '_id',
@@ -33,6 +34,7 @@ PostSchema.virtual('comments', {
   });
 
 
+  // if the admin delete a post all the comment attached to the post will be deleted 
   PostSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
 	try {
 	  await this.model('Comment').deleteMany({ postID: this._id });

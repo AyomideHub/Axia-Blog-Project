@@ -11,7 +11,7 @@ const createComment = async (req, res) => {
 
   if (parentCommentId) {
     const comment = await Comment.findById(parentCommentId);
-    if (!comment) throw new NotFoundError("Parent comment doesnot exist");
+    if (!comment) throw new NotFoundError("Could get the initial comment");
   }
 
   const comment = await Comment.create({
@@ -35,14 +35,14 @@ const getSingleComment = async (req, res) => {
 
 const deleteComment = async (req, res, next) => {
   try {
-    const comment = await Comment.findOne({
+    const comment = await Comment.findOneAndDelete({
       CreatedBy: req.user.id,
       _id: req.params.id,
     });
     if (!comment) {
       throw new NotFoundError("No Comment found");
     }
-    await comment.deleteOne(); 
+
     res.status(StatusCodes.OK).json({ message: "Comment deleted successfully" });
   } catch (error) {
     next(error); 
